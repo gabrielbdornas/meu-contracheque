@@ -61,7 +61,7 @@ $ source venv/Scripts/activate
 
 - Identifique a versão do navegador Chrome instalado em sua máquina digitando `chrome://version/` na barra de navegação do mesmo.
 
-- Realize o download do drive específico para versão chrome instalada em sua máquina [aqui](https://chromedriver.storage.googleapis.com/index.html).
+- Realize o download do [drive específico](https://chromedriver.storage.googleapis.com/index.html) para versão chrome instalada em sua máquina.
 
 - Necessário descompactar arquivo baixado.
 
