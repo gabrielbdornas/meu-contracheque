@@ -59,7 +59,7 @@ $ source venv/Scripts/activate
 
 #### Instalação cromedriver
 
-- Identifique a versão do navegador Chrome instalado em sua máquina através [deste endereço](chrome://version/)
+- Identifique a versão do navegador Chrome instalado em sua máquina digitando `chrome://version/` na barra de navegação do mesmo
 
 - Realize o download do drive específico para versão chrome instalada em sua máquina [aqui](https://chromedriver.storage.googleapis.com/index.html)
 
