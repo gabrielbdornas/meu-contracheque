@@ -103,5 +103,5 @@ Obs.: Esta opção poderá demorar, a depender do número de contracheques a ser
 ## Encontrou algo errado no código ou quer melhorá-lo
 
 Abra um [Issue](https://github.com/gabrielbdornas/meu-contracheque/issues) ou um [Pull Request](https://github.com/gabrielbdornas/meu-contracheque/pulls)!!!
-
 Este tipo de contribuição auxiliará no crescimento do código de maneira exponencial!
+Se deseja colocar a mão na massa, acesse as sugestões de melhorias já documentadas nos [Issues](https://github.com/gabrielbdornas/meu-contracheque/labels/enhancement) com a tag "enhancement".
