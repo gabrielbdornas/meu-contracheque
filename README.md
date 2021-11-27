@@ -1,40 +1,107 @@
-Python boilerplate :ramen:
+Meu Contracheque :bookmark_tabs:
 ===
 
 ## Sobre este repositório :open_book:
 
-Repositório continuação do trabalho realizado [aqui](https://github.com/gabrielbdornas/python-boilerplate), criado como código fonte básico para iniciar trabalhos em Python :snake:.
+Meu contracheque é um pacote Python, acessível via interface CLI, utilizado para buscar informações de contracheques via web scraping.
 
-Criação de um [repositório template no github](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/creating-a-template-repository), bem como a utilização do mesmo para iniciar [novos projetos](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/creating-a-new-repository) foi utilizado como referência
+A primeira versão deste pacote conta com a busca de contracheques dos servidores públicos do Estado de Minas Gerais, disponibilizados na aba "Emissão de Contracheque" do site [Portal do Servidor](https://www.portaldoservidor.mg.gov.br/index.php/servicos/emissao-de-contracheque).
 
-Um breve :movie_camera: [tutorial no YouTube](https://youtu.be/S5cWAxUwxVk) foi criado para facilitar o entendimento e a construção do repositório.
 
-Não deixe de conferir os outros vídeos sobre Python incluídos na mesma [playlist](https://youtube.com/playlist?list=PL3IzYsZ_t_16vdpHyVNii1D9UJyDM-ATc) do vídeo citado acima.
+## Orientações gerais
 
-## Apoie este trabalho :money_with_wings: :money_with_wings: :money_with_wings:
+- Instalação de Python 3
 
-Se você gostou deste conteúdo e deseja auxiliar na criação de mais material como esse, pague-nos um café!!! :coffee:
+- Utilização de navegador Google Chrome
 
-[Pix: pagueumcafepgabriel@gmail.com](https://iti.itau/transacoes?t=link&h=f5fa1d7a-d3cd-4502-b62f-3eac451528a6)
+- Não copie e cole os comandos abaixo cegamente, modifique os textos entre "< >" com as informações pertinente à sua realidade.
 
-Algo não funcionou, ficou com alguma dúvida ou gostaria de aprofundar algum ponto específico não detalhando no vídeo ou no código? Envie um e-mail para pagueumcafepgabriel@gmail.com para agendarmos uma sessão de tutoria online.
+## Setup da máquina
 
-## Utilizar boilerplate :open_book:
+Recomendo utilizar uma pasta específica para execução dos comandos do pacote, criando e ativando ambiente Python dentro da mesma, conforme sugerido abaixo:
 
-- Criação de seu repositório a [partir do template](https://github.com/gabrielbdornas/python-boilerplate-template/generate)
-- Clonando o projeto:
+#### Pasta para execução dos comandos e ativação de ambiente python
 
-```Python
-# Não copie e cole o comando abaixo cegamente, modifique <github-username> e <nome-do-seu-projeto>
-$ git clone https://github.com/<github-username>/<nome-do-seu-projeto>
-$ python3.9 -m venv venv
+- Necessário instalação de [Python 3](https://www.python.org/downloads/) antes da execução os comandos abaixo para ambos os sistemas operacionais
+
+- Sistema operacional Linux:
+
+```Terminal
+# Criação da pasta para execução do projeto
+$ mkdir <nome-desejado-para-pasta>
+
+# Acessando a pasta criada
+$ cd <nome-desejado-para-pasta>
+
+# Criação ambiente python
+$ python3 -m venv venv
+
+# Ativação ambiente python
 $ source venv/bin/activate
-$ pip install -r requirements.txt
-# inclua no arquivo requirements.txt todas as bibliotecas necessárias p seu projeto
 ```
+
+- Sistema operacional Windows:
+  - Recomendo a utilização de Git Bash disponível com instalação de [Git para Windows](https://gitforwindows.org/)
+
+```Terminal
+# Criação da pasta para execução do projeto
+$ mkdir <nome-desejado-para-pasta>
+
+# Acessando a pasta criada
+$ cd <nome-desejado-para-pasta>
+
+# Criação ambiente python
+$ python -m venv venv
+
+# Ativação ambiente python
+$ source venv/Scripts/activate
+```
+
+#### Instalação cromedriver
+
+- Identifique a versão do navegador Chrome instalado em sua máquina através [deste endereço](chrome://version/)
+
+- Realize o download do drive específico para versão chrome instalada em sua máquina [aqui](https://chromedriver.storage.googleapis.com/index.html)
+
+- Necessário descompactar arquivo baixado.
+
+- Para sistema operacional Windows basta incluir o caminho do arquivo descompactado no path.
+
+- Para sistema operacional Linux incluir o arquivo no caminho `/usr/local/bin`.
+
+### Passando suas credenciais para buscar o contracheque
+
+## Instalação
+
+O `meu-contracheque` está disponível no Python Package Index - [PyPI](https://pypi.org/project/meu-contracheque/) e pode ser instalado utilizando-se o comando abaixo:
+
+```bash
+# Antes de executar o comando abaixo lembre-se que ambiente Python deverá estar ativo
+$ pip install meu-contracheque
+```
+
+## Utilização
+
+O resultado da execução dos comandos abaixo será a criação do arquivo "contracheques.csv". As informações retornadas estão organizadas em formato tabular.
+Toda execução subscreve o arquivo "contracheques.csv" anteriormente gerado.
+
+- Buscar informações do contracheque mais recente
+
+```Terminal
+$ contracheque mg mais-recente
+```
+
+- Buscar informações de todos os contracheques emitidos
+
+```Terminal
+$ contracheque mg todos
+```
+
+Obs.: Esta opção poderá demorar, a depender do número de contracheques a serem exportados. O log de execução do comando será exibido no terminal, facilitando o entendimento que está acontecendo.
+
 
 ## Encontrou algo errado no código ou quer melhorá-lo
 
-Abra um Pull Request!!! Prometo não demorar a responder.
+Abra um [Issue](https://github.com/gabrielbdornas/meu-contracheque/issues) ou um [Pull Request](https://github.com/gabrielbdornas/meu-contracheque/pulls)!!!
 
-Adoro este tipo de contribuição pois auxiliará no crescimento do código de maneira exponencial!
+Este tipo de contribuição auxiliará no crescimento do código de maneira exponencial!
