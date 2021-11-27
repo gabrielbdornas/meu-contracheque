@@ -10,9 +10,9 @@ A primeira versão deste pacote conta com a busca de contracheques dos servidore
 
 ## Orientações gerais
 
-- Instalação de Python 3
+- Instalação de [Python 3](https://www.python.org/downloads/).
 
-- Utilização de navegador Google Chrome
+- Utilização de navegador Google Chrome.
 
 - Não copie e cole os comandos abaixo cegamente, modifique os textos entre "< >" com as informações pertinente à sua realidade.
 
@@ -22,7 +22,7 @@ Recomendo utilizar uma pasta específica para execução dos comandos do pacote,
 
 #### Pasta para execução dos comandos e ativação de ambiente python
 
-- Necessário instalação de [Python 3](https://www.python.org/downloads/) antes da execução os comandos abaixo para ambos os sistemas operacionais
+- Necessário instalação de [Python 3](https://www.python.org/downloads/) antes da execução os comandos abaixo para ambos os sistemas operacionais.
 
 - Sistema operacional Linux:
 
@@ -41,7 +41,7 @@ $ source venv/bin/activate
 ```
 
 - Sistema operacional Windows:
-  - Recomendo a utilização de Git Bash disponível com instalação de [Git para Windows](https://gitforwindows.org/)
+  - Recomendo a utilização de Git Bash disponível com instalação de [Git para Windows](https://gitforwindows.org/).
 
 ```Terminal
 # Criação da pasta para execução do projeto
@@ -59,9 +59,9 @@ $ source venv/Scripts/activate
 
 #### Instalação cromedriver
 
-- Identifique a versão do navegador Chrome instalado em sua máquina digitando `chrome://version/` na barra de navegação do mesmo
+- Identifique a versão do navegador Chrome instalado em sua máquina digitando `chrome://version/` na barra de navegação do mesmo.
 
-- Realize o download do drive específico para versão chrome instalada em sua máquina [aqui](https://chromedriver.storage.googleapis.com/index.html)
+- Realize o download do drive específico para versão chrome instalada em sua máquina [aqui](https://chromedriver.storage.googleapis.com/index.html).
 
 - Necessário descompactar arquivo baixado.
 
@@ -85,13 +85,13 @@ $ pip install meu-contracheque
 O resultado da execução dos comandos abaixo será a criação do arquivo "contracheques.csv". As informações retornadas estão organizadas em formato tabular.
 Toda execução subscreve o arquivo "contracheques.csv" anteriormente gerado.
 
-- Buscar informações do contracheque mais recente
+- Buscar informações do contracheque mais recente:
 
 ```Terminal
 $ contracheque mg mais-recente
 ```
 
-- Buscar informações de todos os contracheques emitidos
+- Buscar informações de todos os contracheques emitidos:
 
 ```Terminal
 $ contracheque mg todos
