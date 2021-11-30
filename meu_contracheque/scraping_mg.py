@@ -55,10 +55,10 @@ def driver_initiate():
 
 def scraping_single_process(driver, period, masp, senha):
   try:
-    masp = driver.find_element(By.ID, 'inputMasp')
-    senha = driver.find_element(By.ID, 'inputSenha')
-    masp.send_keys(masp)
-    senha.send_keys(senha)
+    masp_field = driver.find_element(By.ID, 'inputMasp')
+    senha_field = driver.find_element(By.ID, 'inputSenha')
+    masp_field.send_keys(masp)
+    senha_field.send_keys(senha)
     # Clica no botão para entrar e selecionar o mês desejado
     driver.find_element(By.XPATH, "//input[@type='submit' and @value='Entrar']").click()
     mes = driver.find_element(By.ID, 'mesAno')
@@ -67,6 +67,7 @@ def scraping_single_process(driver, period, masp, senha):
     mes.send_keys(period)
     driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
     # Salva código fonte da página
+    print(f'Baixando informações contracheque {period}.')
     get_page_source(driver, period, 'mensal')
     driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']").click()
     # Imprime resultado em pdf
@@ -88,8 +89,8 @@ def scraping_full_process(driver, period):
       try:
         voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
       except NoSuchElementException:
-      # if period.split('/')[0] == '11':
         driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
+        print(f'Baixando informações contracheque {period}.')
         get_page_source(driver, period, 'normal')
         driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']").click()
         mes = driver.find_element(By.ID, 'mesAno')
@@ -97,12 +98,14 @@ def scraping_full_process(driver, period):
         driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
         driver.find_element(By.XPATH, "//input[@id='folha1']").click()
         driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
+        print(f'Baixando informações contracheque {period}.')
         get_page_source(driver, period, 'gratificacao')
         voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
       try:
         driver.find_element(By.XPATH, f"//b[text()='Nao possui contracheque no mes/ano {period}']")
         found_period = False
       except NoSuchElementException:
+        print(f'Baixando informações contracheque {period}.')
         get_page_source(driver, period, 'normal')
         voltar.click()
         period = find_last_period(period)
@@ -131,12 +134,12 @@ def csv_register():
   for file in os.listdir('.temp'):
     position = os.listdir('.temp').index(file) + 1
     files_len = len(os.listdir('.temp'))
-    print(f'Registrando {position} de {files_len} contraqueches')
     split_file = file.split('_')
     year = split_file[0]
     month = split_file[1]
     doc_type = split_file[2]
     period = f'{month}/{year}'
+    print(f'Registrando {position} de {files_len} contraqueches - {period}.')
     # csv header
     fieldnames = ['periodo', 'mes', 'ano', 'masp', 'tipo_contracheque', 'cpf','nome', 'cargo', 'orgao_exercicio', 'unidade_exercicio', 'verba', 'valor', 'previdencia']
     rows = find_contracheque_values(period, doc_type)

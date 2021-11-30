@@ -51,4 +51,4 @@ def scraping_mg_last_period_cli(masp, senha):
     -------
     Arquivo "contracheques.csv" atualizado com as informações do último contracheque disponível no Portal do Servidor.
   """
-  scraping_last_period(masp, senha)
+  scraping_mg_last_period(masp, senha)
