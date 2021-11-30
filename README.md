@@ -85,6 +85,8 @@ $ pip install meu-contracheque
 O resultado da execução dos comandos abaixo será a criação do arquivo "contracheques.csv". As informações retornadas estão organizadas em formato tabular.
 Toda execução subscreve o arquivo "contracheques.csv" anteriormente gerado.
 
+Obs.: Nenhum dos comandos, até o presente momento, retorna o pdf do contracheque na íntegra.
+
 - Buscar informações do contracheque mais recente:
 
 ```Terminal
