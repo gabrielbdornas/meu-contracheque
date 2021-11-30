@@ -13,21 +13,6 @@ from bs4 import BeautifulSoup
 from selenium.common.exceptions import NoSuchElementException
 load_dotenv(dotenv_path=Path('.', '.env'))
 
-def scraping_all_periods():
-  try:
-    clean_process()
-    start = scraping_process_begin()
-    driver = start[0]
-    period = start[1]
-    scraping_single_process(driver, period)
-    period = find_last_period(period)
-    scraping_full_process(driver, period)
-    csv_register(driver, period)
-  except:
-    print('Não foi possível finalizar o processo de busca de todos contracheques.')
-    clean_process()
-    sys.exit(1)
-
 def clean_process():
   os.system('rm -rf .temp/')
   os.system('rm -rf contracheques.csv')
@@ -89,6 +74,8 @@ def scraping_full_process(driver, period):
       try:
         voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
       except NoSuchElementException:
+        if period == '11/2020':
+          import ipdb; ipdb.set_trace(context=10)
         driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
         print(f'Baixando informações contracheque {period}.')
         get_page_source(driver, period, 'normal')
@@ -106,7 +93,7 @@ def scraping_full_process(driver, period):
         found_period = False
       except NoSuchElementException:
         print(f'Baixando informações contracheque {period}.')
-        get_page_source(driver, period, 'normal')
+        get_page_source(driver, period, 'annormal')
         voltar.click()
         period = find_last_period(period)
     driver.quit()
