@@ -71,6 +71,22 @@ $ source venv/Scripts/activate
 
 ### Passando suas credenciais para buscar o contracheque
 
+- As credenciais masp e senha para busca de contracheque poderão ser passadas de duas maneiras, a saber:
+
+  - Utilização das flags `-m` e `-s` durante a chamada das funções
+
+  ```Terminal
+  $ contracheque mg mais-recente -m <masp-usuario> -s <senha-usuario>
+  ```
+
+  - Arquivo .env na raiz da pasta aonde os comandos serão executados.
+
+  ```
+  # Estrutura arquivo .env a ser criado
+  MASP=<masp-usuario>
+  PORTAL_PWD=<senha-usuario>
+  ```
+
 ## Instalação
 
 O `meu-contracheque` está disponível no Python Package Index - [PyPI](https://pypi.org/project/meu-contracheque/) e pode ser instalado utilizando-se o comando abaixo:
