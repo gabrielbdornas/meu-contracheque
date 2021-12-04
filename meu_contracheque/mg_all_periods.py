@@ -23,13 +23,14 @@ def scraping_mg_all_periods(masp, senha):
   Arquivo "contracheques.csv" atualizado com as informações de todos os contracheque disponíveis no Portal do Servidor.
   """
   try:
+    print('Iniciando processo de extração de todos contracheques...')
     clean_full_process()
     start = scraping_process_begin()
     driver = start[0]
     period = start[1]
     scraping_login_process(driver, period, masp, senha)
     scraping_full_process(driver, period, False)
-    csv_register(driver, period)
+    csv_register()
     clean_process()
   except:
     print('Não foi possível finalizar o processo de busca de todos contracheques.')
