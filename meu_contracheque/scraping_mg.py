@@ -13,9 +13,12 @@ from bs4 import BeautifulSoup
 from selenium.common.exceptions import NoSuchElementException
 load_dotenv(dotenv_path=Path('.', '.env'))
 
-def clean_process():
+def clean_full_process():
   os.system('rm -rf .temp/')
   os.system('rm -rf contracheques.csv')
+
+def clean_process():
+  os.system('rm -rf .temp/')
 
 def scraping_process_begin():
   try:
@@ -38,7 +41,7 @@ def driver_initiate():
     sys.exit(1)
   return driver
 
-def scraping_single_process(driver, period, masp, senha):
+def scraping_login_process(driver, period, masp, senha):
   try:
     masp_field = driver.find_element(By.ID, 'inputMasp')
     senha_field = driver.find_element(By.ID, 'inputSenha')
@@ -46,37 +49,29 @@ def scraping_single_process(driver, period, masp, senha):
     senha_field.send_keys(senha)
     # Clica no botão para entrar e selecionar o mês desejado
     driver.find_element(By.XPATH, "//input[@type='submit' and @value='Entrar']").click()
-    mes = driver.find_element(By.ID, 'mesAno')
-    # Seleciona o mês desejada e clica no botão consultar
-    period = normalize_period(period)
-    mes.send_keys(period)
-    driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
-    # Salva código fonte da página
-    print(f'Baixando informações contracheque {period}.')
-    get_page_source(driver, period, 'mensal')
-    driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']").click()
     # Imprime resultado em pdf
     # time.sleep(5) # Pode ser necessário aumentar este tempo durante processo de extração
     # driver.find_element(By.XPATH, "//a[@class='botao' and text()='SALVAR EM PDF']").click()
   except:
-    print('Não foi possível completar a busca pelo contracheque')
+    print('Não foi possível realizar login para busca do contracheque')
     sys.exit(1)
 
-def scraping_full_process(driver, period):
+def scraping_full_process(driver, period, last_period):
   try:
     found_period = True
     while found_period:
       mes = driver.find_element(By.ID, 'mesAno')
       # Seleciona o mês desejada e clica no botão consultar
-      period = normalize_period(get_period(period))
+      period = normalize_period(period)
       mes.send_keys(period)
       driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
       try:
         voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
         print(f'Baixando informações contracheque {period}.')
         get_page_source(driver, period, 'normal')
+        period = get_period(find_last_period(period))
         voltar.click()
-        period = find_last_period(period)
+        found_period = (True, False)[last_period] # para execução se desejado for último período
       except NoSuchElementException:
         try:
           driver.find_element(By.XPATH, f"//b[text()='Nao possui contracheque no mes/ano {period}']")
@@ -95,9 +90,10 @@ def scraping_full_process(driver, period):
           driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
           print(f'Baixando informações contracheque gratificação {period}.')
           get_page_source(driver, period, 'gratificacao')
+          period = get_period(find_last_period(period))
           voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
           voltar.click()
-          period = find_last_period(period)
+          found_period = (True, False)[last_period] # para execução se desejado for último período
     driver.quit()
   except:
     print('Não foi possível completar a busca por todos os contracheque')

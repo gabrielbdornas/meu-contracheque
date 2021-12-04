@@ -1,11 +1,12 @@
 import sys
 import click
 from meu_contracheque.scraping_mg import (scraping_process_begin,
-                                         scraping_single_process,
+                                         scraping_login_process,
                                          csv_register,
-                                         clean_process,
+                                         clean_full_process,
                                          find_last_period,
-                                         scraping_full_process)
+                                         scraping_full_process,
+                                         clean_process)
 
 
 def scraping_mg_all_periods(masp, senha):
@@ -22,14 +23,14 @@ def scraping_mg_all_periods(masp, senha):
   Arquivo "contracheques.csv" atualizado com as informações de todos os contracheque disponíveis no Portal do Servidor.
   """
   try:
-    clean_process()
+    clean_full_process()
     start = scraping_process_begin()
     driver = start[0]
     period = start[1]
-    scraping_single_process(driver, period, masp, senha)
-    period = find_last_period(period)
-    scraping_full_process(driver, period)
+    scraping_login_process(driver, period, masp, senha)
+    scraping_full_process(driver, period, False)
     csv_register(driver, period)
+    clean_process()
   except:
     print('Não foi possível finalizar o processo de busca de todos contracheques.')
     sys.exit(1)

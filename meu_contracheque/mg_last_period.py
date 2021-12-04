@@ -1,8 +1,11 @@
 import sys
 import click
+from meu_contracheque.time_reader import find_last_period
 from meu_contracheque.scraping_mg import (scraping_process_begin,
-                                         scraping_single_process,
+                                         scraping_login_process,
+                                         scraping_full_process,
                                          csv_register,
+                                         clean_full_process,
                                          clean_process)
 
 
@@ -20,13 +23,14 @@ def scraping_mg_last_period(masp, senha):
   Arquivo "contracheques.csv" atualizado com as informações do último contracheque disponível no Portal do Servidor.
   """
   try:
-    clean_process()
+    clean_full_process()
     start = scraping_process_begin()
     driver = start[0]
     period = start[1]
-    scraping_single_process(driver, period, masp, senha)
-    driver.quit()
+    scraping_login_process(driver, period, masp, senha)
+    scraping_full_process(driver, period, True)
     csv_register()
+    clean_process()
   except:
     print('Não foi possível finalizar o processo de busca do contracheque mais recente.')
     sys.exit(1)
