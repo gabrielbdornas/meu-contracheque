@@ -73,29 +73,31 @@ def scraping_full_process(driver, period):
       driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
       try:
         voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
-      except NoSuchElementException:
-        if period == '11/2020':
-          import ipdb; ipdb.set_trace(context=10)
-        driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
         print(f'Baixando informações contracheque {period}.')
         get_page_source(driver, period, 'normal')
-        driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']").click()
-        mes = driver.find_element(By.ID, 'mesAno')
-        mes.send_keys(period)
-        driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
-        driver.find_element(By.XPATH, "//input[@id='folha1']").click()
-        driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
-        print(f'Baixando informações contracheque {period}.')
-        get_page_source(driver, period, 'gratificacao')
-        voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
-      try:
-        driver.find_element(By.XPATH, f"//b[text()='Nao possui contracheque no mes/ano {period}']")
-        found_period = False
-      except NoSuchElementException:
-        print(f'Baixando informações contracheque {period}.')
-        get_page_source(driver, period, 'annormal')
         voltar.click()
         period = find_last_period(period)
+      except NoSuchElementException:
+        try:
+          driver.find_element(By.XPATH, f"//b[text()='Nao possui contracheque no mes/ano {period}']")
+          found_period = False
+          print(f'Fim da busca. Nao possui contracheque no mes/ano {period}.')
+          sys.exit(1)
+        except NoSuchElementException:
+          driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
+          print(f'Baixando informações contracheque {period}.')
+          get_page_source(driver, period, 'normal')
+          driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']").click()
+          mes = driver.find_element(By.ID, 'mesAno')
+          mes.send_keys(period)
+          driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
+          driver.find_element(By.XPATH, "//input[@id='folha1']").click()
+          driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
+          print(f'Baixando informações contracheque gratificação {period}.')
+          get_page_source(driver, period, 'gratificacao')
+          voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
+          voltar.click()
+          period = find_last_period(period)
     driver.quit()
   except:
     print('Não foi possível completar a busca por todos os contracheque')
