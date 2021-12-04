@@ -172,8 +172,8 @@ def find_contracheque_fix_information(period, doc_type):
   elements = soup.findAll("small")
   row = {
       'periodo': period,
-      'mes': period.split('/')[0],
-      'ano': period.split('/')[1],
+      'mes': int(period.split('/')[0]),
+      'ano': int(period.split('/')[1]),
       'masp': elements[23].get_text(strip=True),
       'tipo_contracheque': doc_type,
       'cpf': elements[59].get_text(strip=True),
