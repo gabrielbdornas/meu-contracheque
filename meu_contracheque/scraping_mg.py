@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 import csv
 from bs4 import BeautifulSoup
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.options import Options
 load_dotenv(dotenv_path=Path('.', '.env'))
 
 def clean_full_process():
@@ -33,7 +34,9 @@ def scraping_process_begin():
 
 def driver_initiate():
   try:
-    driver = webdriver.Chrome()
+    chrome_options = Options()
+    chrome_options.headless = True
+    driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.implicitly_wait(3)
     driver.get('https://www.portaldoservidor.mg.gov.br/azpf/broker2/?controle=ContraCheque')
   except:
