@@ -79,7 +79,6 @@ def scraping_full_process(driver, period, last_period):
         period = get_period(find_last_period(period))
         voltar.click()
         found_period = (True, False)[last_period] # para execução se desejado for último período
-        import ipdb; ipdb.set_trace(context=10)
       except NoSuchElementException:
         driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
         print(f'Baixando informações contracheque {period}')
