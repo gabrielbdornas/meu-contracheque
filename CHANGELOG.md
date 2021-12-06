@@ -2,7 +2,7 @@
 
 Documentação das principais alterações sofridas por este repositório. Baseado na filosofia [Mantenha um Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
-### [0.1.0] - 2021-11-27
+### [0.1.0] - 2021-12-06
 
 - Versão inicial
   - Comando `contracheque mg mais-recente` para busca das informações do último contracheque disponível.
