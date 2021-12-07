@@ -67,6 +67,8 @@ def scraping_full_process(driver, period, last_period):
     period = normalize_period(period)
     mes.send_keys(period)
     driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
+    if period = '09/2020':
+      import ipdb; ipdb.set_trace(context=10)
     try:
       driver.find_element(By.XPATH, f"//b[text()='Nao possui contracheque no mes/ano {period}']")
       found_period = False
