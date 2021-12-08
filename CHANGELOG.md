@@ -2,6 +2,11 @@
 
 Documentação das principais alterações sofridas por este repositório. Baseado na filosofia [Mantenha um Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
+### [0.1.1] - 2021-12-08
+
+- Correção encoding utf-8 durante extração código fonte da página em sistema operacional windows
+
+
 ### [0.1.0] - 2021-12-06
 
 - Versão inicial

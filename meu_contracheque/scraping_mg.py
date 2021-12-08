@@ -102,7 +102,7 @@ def get_page_source(driver, period, doc_type):
     os.system('mkdir .temp')
   page_source = driver.page_source
   file_path = page_source_file_path(period, doc_type)
-  write_page_source = open(file_path, "w")
+  write_page_source = open(file_path, 'w', encoding='utf-8')
   write_page_source.write(page_source)
   write_page_source.close()
 
@@ -128,7 +128,7 @@ def csv_register():
     rows = find_contracheque_values(period, doc_type)
     file_path = 'contracheques.csv'
     file_exist = os.path.isfile(file_path)
-    with open(file_path, 'a', encoding='UTF8', newline='') as f:
+    with open(file_path, 'a', encoding='utf-8', newline='') as f:
       writer = csv.DictWriter(f, fieldnames=fieldnames)
       if not file_exist:
         writer.writeheader()
@@ -137,7 +137,7 @@ def csv_register():
 def find_contracheque_values(period, doc_type):
   rows = []
   file_path = page_source_file_path(period, doc_type)
-  file = open(file_path, "r").read()
+  file = open(file_path, 'r', encoding='utf-8').read()
   soup = BeautifulSoup(file, 'html5lib')
   value_table = soup.findAll("tbody")[8]
   lines = value_table.findAll("tr") # linhas da tabela
@@ -167,7 +167,7 @@ def find_contracheque_values(period, doc_type):
 
 def find_contracheque_fix_information(period, doc_type):
   file_path = page_source_file_path(period, doc_type)
-  file = open(file_path, "r").read()
+  file = open(file_path, 'r', encoding='utf-8').read()
   soup = BeautifulSoup(file, 'html5lib')
   elements = soup.findAll("small")
   row = {
