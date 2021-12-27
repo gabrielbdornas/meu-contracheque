@@ -28,7 +28,7 @@ def scraping_process_begin():
     last_month = find_last_month(today)
     period = get_period(last_month)
   except:
-    print('Não foi possível iniciar o processo de busca de contracheque.')
+    click.echo('Não foi possível iniciar o processo de busca de contracheque.')
     sys.exit(1)
   return driver, period
 
@@ -40,7 +40,7 @@ def driver_initiate():
     driver.implicitly_wait(3)
     driver.get('https://www.portaldoservidor.mg.gov.br/azpf/broker2/?controle=ContraCheque')
   except:
-    print('Não foi possível iniciar o driver. Tente acesso mais tarde pois portal pode estar fora do ar.')
+    click.echo('Não foi possível iniciar o driver. Tente acesso mais tarde pois portal pode estar fora do ar.')
     sys.exit(1)
   return driver
 
@@ -56,7 +56,7 @@ def scraping_login_process(driver, period, masp, senha):
     # time.sleep(5) # Pode ser necessário aumentar este tempo durante processo de extração
     # driver.find_element(By.XPATH, "//a[@class='botao' and text()='SALVAR EM PDF']").click()
   except:
-    print('Não foi possível realizar login para busca do contracheque')
+    click.echo('Não foi possível realizar login para busca do contracheque')
     sys.exit(1)
 
 def scraping_full_process(driver, period, last_period, stop_period=None):
@@ -71,27 +71,27 @@ def scraping_full_process(driver, period, last_period, stop_period=None):
       driver.find_element(By.XPATH, f"//b[text()='Nao possui contracheque no mes/ano {period}']")
       if stop_period == None:
         found_period = False
-        print(f'Fim da busca. Nao possui contracheque no mes/ano {period}.')
+        click.echo(f'Fim da busca. Nao possui contracheque no mes/ano {period}.')
       elif stop_period == period:
         found_period = False
-        print(f'Fim da busca no período {period} desejado.')
+        click.echo(f'Fim da busca no período {period} desejado.')
       else:
         period = get_period(find_last_period(period))
-        print(f'Nao possui contracheque no mes/ano {period}.')
+        click.echo(f'Nao possui contracheque no mes/ano {period}.')
         voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
         voltar.click()
         found_period = (True, False)[last_period] # para execução se desejado for último período
     except NoSuchElementException:
       try:
         voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
-        print(f'Baixando informações contracheque {period}')
+        click.echo(f'Baixando informações contracheque {period}')
         get_page_source(driver, period, 'normal')
         period = get_period(find_last_period(period))
         voltar.click()
         found_period = (True, False)[last_period] # para execução se desejado for último período
       except NoSuchElementException:
         driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
-        print(f'Baixando informações contracheque {period}')
+        click.echo(f'Baixando informações contracheque {period}')
         get_page_source(driver, period, 'normal')
         driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']").click()
         mes = driver.find_element(By.ID, 'mesAno')
@@ -99,7 +99,7 @@ def scraping_full_process(driver, period, last_period, stop_period=None):
         driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
         driver.find_element(By.XPATH, "//input[@id='folha1']").click()
         driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
-        print(f'Baixando informações contracheque gratificação {period}')
+        click.echo(f'Baixando informações contracheque gratificação {period}')
         get_page_source(driver, period, 'gratificacao')
         period = get_period(find_last_period(period))
         voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
@@ -132,7 +132,7 @@ def csv_register():
     month = split_file[1]
     doc_type = split_file[2]
     period = f'{month}/{year}'
-    print(f'Registrando {position} de {files_len} contraqueches - {period}')
+    click.echo(f'Registrando {position} de {files_len} contraqueches - {period}')
     # csv header
     fieldnames = ['periodo', 'mes', 'ano', 'masp', 'tipo_contracheque', 'cpf','nome', 'cargo', 'orgao_exercicio', 'unidade_exercicio', 'verba', 'valor', 'previdencia']
     rows = find_contracheque_values(period, doc_type)

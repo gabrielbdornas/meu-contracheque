@@ -25,7 +25,7 @@ def scraping_mg_initial_period(masp, senha, stop_period):
   Arquivo "contracheques.csv" atualizado com as informações de todos os contracheque disponíveis no Portal do Servidor.
   """
   try:
-    print('Iniciando processo de extração de todos contracheques...')
+    click.echo('Iniciando processo de extração de todos contracheques...')
     clean_full_process()
     start = scraping_process_begin()
     driver = start[0]
@@ -35,7 +35,7 @@ def scraping_mg_initial_period(masp, senha, stop_period):
     csv_register()
     clean_process()
   except:
-    print('Não foi possível finalizar o processo de busca de todos contracheques.')
+    click.echo('Não foi possível finalizar o processo de busca de todos contracheques.')
     sys.exit(1)
 
 @click.command(name='ate-periodo-inicial')

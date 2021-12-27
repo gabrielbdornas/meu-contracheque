@@ -23,7 +23,7 @@ def scraping_mg_last_period(masp, senha):
   Arquivo "contracheques.csv" atualizado com as informações do último contracheque disponível no Portal do Servidor.
   """
   try:
-    print('Iniciando processo de extração do último contracheque...')
+    click.echo('Iniciando processo de extração do último contracheque...')
     clean_full_process()
     start = scraping_process_begin()
     driver = start[0]
@@ -33,7 +33,7 @@ def scraping_mg_last_period(masp, senha):
     csv_register()
     clean_process()
   except:
-    print('Não foi possível finalizar o processo de busca do contracheque mais recente.')
+    click.echo('Não foi possível finalizar o processo de busca do contracheque mais recente.')
     sys.exit(1)
 
 @click.command(name='mais-recente')
