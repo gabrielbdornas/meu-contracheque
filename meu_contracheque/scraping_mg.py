@@ -35,7 +35,7 @@ def scraping_process_begin():
 def driver_initiate():
   try:
     chrome_options = Options()
-    chrome_options.headless = True
+    # chrome_options.headless = True
     driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.implicitly_wait(3)
     driver.get('https://www.portaldoservidor.mg.gov.br/azpf/broker2/?controle=ContraCheque')
@@ -59,7 +59,7 @@ def scraping_login_process(driver, period, masp, senha):
     print('Não foi possível realizar login para busca do contracheque')
     sys.exit(1)
 
-def scraping_full_process(driver, period, last_period):
+def scraping_full_process(driver, period, last_period, stop_period=None):
   found_period = True
   while found_period:
     mes = driver.find_element(By.ID, 'mesAno')
@@ -69,8 +69,18 @@ def scraping_full_process(driver, period, last_period):
     driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
     try:
       driver.find_element(By.XPATH, f"//b[text()='Nao possui contracheque no mes/ano {period}']")
-      found_period = False
-      print(f'Fim da busca. Nao possui contracheque no mes/ano {period}.')
+      if stop_period == None:
+        found_period = False
+        print(f'Fim da busca. Nao possui contracheque no mes/ano {period}.')
+      elif stop_period == period:
+        found_period = False
+        print(f'Fim da busca no período {period} desejado.')
+      else:
+        period = get_period(find_last_period(period))
+        print(f'Nao possui contracheque no mes/ano {period}.')
+        voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
+        voltar.click()
+        found_period = (True, False)[last_period] # para execução se desejado for último período
     except NoSuchElementException:
       try:
         voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
