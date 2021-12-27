@@ -111,8 +111,20 @@ $ contracheque mg mais-recente
 
 - Buscar informações de todos os contracheques emitidos:
 
+Obs.: Este comando deve ser utilizado para períodos sem interrupção na geração dos contracheques.
+
 ```Terminal
 $ contracheque mg todos
+```
+
+Obs.: Esta opção poderá demorar, a depender do número de contracheques a serem exportados. O log de execução do comando será exibido no terminal, facilitando o entendimento que está acontecendo.
+
+- Buscar informações de todos os contracheques emitidos com períodos em que a emissão foi interrompida:
+
+Obs.: Deverá ser informado período para qual a busca se encerrará. Exemplo. Primeiro contracheque emitido em 01/2010 deverá ser passado flag `-sp 12/2009` (para que seja retornado o contracheque de 01/2010 e a rotina seja encerrada no mês 12/2009).
+
+```Terminal
+$ contracheque mg ate-periodo-inicial -sp 12/2009
 ```
 
 Obs.: Esta opção poderá demorar, a depender do número de contracheques a serem exportados. O log de execução do comando será exibido no terminal, facilitando o entendimento que está acontecendo.
