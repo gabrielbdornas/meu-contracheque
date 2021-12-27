@@ -17,7 +17,7 @@ INSTALL_REQUIRES = [
 
 # Variáveis author, copyright e licence utilizadas para criação/atualização do arquivo LICENCE.txt (rotina Make durante processo de atualização do pacote "make update-package")
 name = 'meu-contracheque'
-version = '0.1.1'
+version = '0.2.0'
 author = 'Gabriel Braico Dornas'
 email_author = 'gabrielbdornas@gmail.com'
 description = 'Buscar informações de contracheques via web scraping'
