@@ -3,6 +3,7 @@
 from meu_contracheque.time_reader import find_last_month, find_today, find_last_period
 import os
 import sys
+import click
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
@@ -35,7 +36,7 @@ def scraping_process_begin():
 def driver_initiate():
   try:
     chrome_options = Options()
-    # chrome_options.headless = True
+    chrome_options.headless = True
     driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.implicitly_wait(3)
     driver.get('https://www.portaldoservidor.mg.gov.br/azpf/broker2/?controle=ContraCheque')
