@@ -2,6 +2,10 @@
 
 Documentação das principais alterações sofridas por este repositório. Baseado na filosofia [Mantenha um Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
+### [0.2.1] - 2022-03-08
+
+- Chrome headless durante execução
+
 ### [0.2.0] - 2021-12-27
 
 - Inclusão comando `ate-periodo-inicial`
