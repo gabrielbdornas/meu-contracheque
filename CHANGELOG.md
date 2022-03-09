@@ -2,6 +2,10 @@
 
 Documentação das principais alterações sofridas por este repositório. Baseado na filosofia [Mantenha um Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
+### [0.2.5] - 2022-03-09
+
+- Melhora geração arquivo pdf
+
 ### [0.2.4] - 2022-03-09
 
 - Corrige nome arquivo pdf
