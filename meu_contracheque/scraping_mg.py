@@ -117,6 +117,9 @@ def get_page_source(driver, period, doc_type):
   write_page_source.write(page_source)
   write_page_source.close()
 
+def get_pdf()
+  driver.find_element(By.XPATH, "//a[@class='botao' and text()='SALVAR EM PDF']").click()
+
 def page_source_file_path(period, doc_type):
   period = period.split('/')
   month = period[0]
