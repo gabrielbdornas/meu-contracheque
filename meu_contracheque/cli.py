@@ -16,14 +16,20 @@ def cli():
               help="Masp do servidor do Estado de Minas Gerais")
 @click.option('--senha', '-s', envvar='PORTAL_PWD', required=True,
               help="Senha de acesso ao Portal do servidor do Estado de Minas Gerais")
+@click.option('--headless/--no-headless', default=True,
+              help='''
+              Determina se Chrome será mostrada para usuário ou não durante execução.
+              Por padrão --headless = True.
+              A utilização da flag --no-headless mostrará o navegador durante execução.''')
 @click.pass_context
-def mg(ctx, masp, senha):
+def mg(ctx, masp, senha, headless):
   """
     Funções responsáveis pela extração de informações de contracheques dos servidores do Estado de Minas Gerais.
   """
   ctx.ensure_object(dict)
   ctx.obj['masp'] = masp
   ctx.obj['senha'] = senha
+  ctx.obj['headless'] = headless
 
 mg.add_command(scraping_mg_last_period_cli)
 mg.add_command(scraping_mg_all_periods_cli)

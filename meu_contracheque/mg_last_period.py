@@ -9,7 +9,7 @@ from meu_contracheque.scraping_mg import (scraping_process_begin,
                                          clean_process)
 
 
-def scraping_mg_last_period(masp, senha):
+def scraping_mg_last_period(masp, senha, headless):
   """
   Função responsável pela busca de informações do último contracheque dos servidores do Estado de Minas Gerais.
   Parâmetros:
@@ -25,7 +25,7 @@ def scraping_mg_last_period(masp, senha):
   try:
     click.echo('Iniciando processo de extração do último contracheque...')
     clean_full_process()
-    start = scraping_process_begin()
+    start = scraping_process_begin(headless)
     driver = start[0]
     period = start[1]
     scraping_login_process(driver, period, masp, senha)
@@ -53,4 +53,4 @@ def scraping_mg_last_period_cli(ctx):
     -------
     Arquivo "contracheques.csv" atualizado com as informações do último contracheque disponível no Portal do Servidor.
   """
-  scraping_mg_last_period(ctx.obj['masp'], ctx.obj['senha'])
+  scraping_mg_last_period(ctx.obj['masp'], ctx.obj['senha'], ctx.obj['headless'])

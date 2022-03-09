@@ -22,9 +22,9 @@ def clean_full_process():
 def clean_process():
   os.system('rm -rf .temp/')
 
-def scraping_process_begin():
+def scraping_process_begin(headless):
   try:
-    driver = driver_initiate()
+    driver = driver_initiate(headless)
     today = find_today()
     last_month = find_last_month(today)
     period = get_period(last_month)
@@ -33,10 +33,10 @@ def scraping_process_begin():
     sys.exit(1)
   return driver, period
 
-def driver_initiate():
+def driver_initiate(headless):
   try:
     chrome_options = Options()
-    chrome_options.headless = True
+    chrome_options.headless = headless
     driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.implicitly_wait(3)
     driver.get('https://www.portaldoservidor.mg.gov.br/azpf/broker2/?controle=ContraCheque')

@@ -87,6 +87,14 @@ $ source venv/Scripts/activate
   PORTAL_PWD=<senha-usuario>
   ```
 
+### Visualizando Navegador Chrome durante a execução
+
+- Por padrão execução não mostra navegador Chrome "trabalhando". Flag `--headless` foi criada e definida como padrão `True` para tal. Possível utilizar flag `--no-headless` durante a execução para que o navegador seja acionado na tela.
+
+```Terminal
+$ meu-contracheque mg -m <masp-usuario> -s <senha-usuario> --no-headless
+```
+
 ## Instalação
 
 O `meu-contracheque` está disponível no Python Package Index - [PyPI](https://pypi.org/project/meu-contracheque/) e pode ser instalado utilizando-se o comando abaixo:
