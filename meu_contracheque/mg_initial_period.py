@@ -39,13 +39,10 @@ def scraping_mg_initial_period(masp, senha, stop_period):
     sys.exit(1)
 
 @click.command(name='ate-periodo-inicial')
-@click.option('--masp', '-m', envvar='MASP', required=True,
-              help="Masp do servidor do Estado de Minas Gerais")
-@click.option('--senha', '-s', envvar='PORTAL_PWD', required=True,
-              help="Senha de acesso ao Portal do servidor do Estado de Minas Gerais")
+@click.pass_context
 @click.option('--stop-period', '-sp', required=True,
               help="Último período a ser pesquisado. Exemplo: 02/2008")
-def scraping_mg_initial_period_cli(masp, senha, stop_period):
+def scraping_mg_initial_period_cli(ctx, stop_period):
   """
   Função CLI responsável pela busca de informações dos contracheques dos servidores do Estado de Minas Gerais até o período desejado.
   Por padrão, função buscará masp e senha nas variáveis de ambiente MASP e PORTAL_PWD cadastradas na máquina ou
@@ -62,4 +59,4 @@ def scraping_mg_initial_period_cli(masp, senha, stop_period):
   -------
   Arquivo "contracheques.csv" atualizado com as informações de todos os contracheques disponíveis no Portal do Servidor.
   """
-  scraping_mg_initial_period(masp, senha, stop_period)
+  scraping_mg_initial_period(ctx.obj['masp'], ctx.obj['senha'], stop_period)

@@ -10,12 +10,20 @@ def cli():
   """
   pass
 
+
 @cli.group()
-def mg():
+@click.option('--masp', '-m', envvar='MASP', required=True,
+              help="Masp do servidor do Estado de Minas Gerais")
+@click.option('--senha', '-s', envvar='PORTAL_PWD', required=True,
+              help="Senha de acesso ao Portal do servidor do Estado de Minas Gerais")
+@click.pass_context
+def mg(ctx, masp, senha):
   """
     Funções responsáveis pela extração de informações de contracheques dos servidores do Estado de Minas Gerais.
   """
-  pass
+  ctx.ensure_object(dict)
+  ctx.obj['masp'] = masp
+  ctx.obj['senha'] = senha
 
 mg.add_command(scraping_mg_last_period_cli)
 mg.add_command(scraping_mg_all_periods_cli)

@@ -37,11 +37,8 @@ def scraping_mg_all_periods(masp, senha):
     sys.exit(1)
 
 @click.command(name='todos')
-@click.option('--masp', '-m', envvar='MASP', required=True,
-              help="Masp do servidor do Estado de Minas Gerais")
-@click.option('--senha', '-s', envvar='PORTAL_PWD', required=True,
-              help="Senha de acesso ao Portal do servidor do Estado de Minas Gerais")
-def scraping_mg_all_periods_cli(masp, senha):
+@click.pass_context
+def scraping_mg_all_periods_cli(ctx):
   """
   Função CLI responsável pela busca de informações de todos os contracheques dos servidores do Estado de Minas Gerais.
   Por padrão, função buscará masp e senha nas variáveis de ambiente MASP e PORTAL_PWD cadastradas na máquina ou
@@ -56,4 +53,4 @@ def scraping_mg_all_periods_cli(masp, senha):
     -------
     Arquivo "contracheques.csv" atualizado com as informações de todos os contracheques disponíveis no Portal do Servidor.
   """
-  scraping_mg_all_periods(masp, senha)
+  scraping_mg_all_periods(ctx.obj['masp'], ctx.obj['senha'])

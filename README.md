@@ -76,7 +76,7 @@ $ source venv/Scripts/activate
   - Utilização das flags `-m` e `-s` durante a chamada das funções
 
   ```Terminal
-  $ contracheque mg mais-recente -m <masp-usuario> -s <senha-usuario>
+  $ meu-contracheque mg -m <masp-usuario> -s <senha-usuario> mais-recente
   ```
 
   - Arquivo .env na raiz da pasta aonde os comandos serão executados.
@@ -106,7 +106,7 @@ Obs.: Nenhum dos comandos, até o presente momento, retorna o pdf do contrachequ
 - Buscar informações do contracheque mais recente:
 
 ```Terminal
-$ contracheque mg mais-recente
+$ meu-contracheque mg mais-recente
 ```
 
 - Buscar informações de todos os contracheques emitidos:
@@ -114,7 +114,7 @@ $ contracheque mg mais-recente
 Obs.: Este comando deve ser utilizado para períodos sem interrupção na geração dos contracheques.
 
 ```Terminal
-$ contracheque mg todos
+$ meu-contracheque mg todos
 ```
 
 Obs.: Esta opção poderá demorar, a depender do número de contracheques a serem exportados. O log de execução do comando será exibido no terminal, facilitando o entendimento que está acontecendo.
@@ -124,7 +124,7 @@ Obs.: Esta opção poderá demorar, a depender do número de contracheques a ser
 Obs.: Deverá ser informado período para qual a busca se encerrará. Exemplo. Primeiro contracheque emitido em 01/2010 deverá ser passado flag `-sp 12/2009` (para que seja retornado o contracheque de 01/2010 e a rotina seja encerrada no mês 12/2009).
 
 ```Terminal
-$ contracheque mg ate-periodo-inicial -sp 12/2009
+$ meu-contracheque mg ate-periodo-inicial -sp 12/2009
 ```
 
 Obs.: Esta opção poderá demorar, a depender do número de contracheques a serem exportados. O log de execução do comando será exibido no terminal, facilitando o entendimento que está acontecendo.
