@@ -2,6 +2,12 @@
 
 Documentação das principais alterações sofridas por este repositório. Baseado na filosofia [Mantenha um Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
+### [0.2.2] - 2022-03-09
+
+- Flags --masp e --senha passados após subcomando mg
+- Cria flag para determinar se Chrome ficará headless durante execução (--headless/--no-headless)
+- Melhora Readme.md
+
 ### [0.2.1] - 2022-03-08
 
 - Chrome headless durante execução
