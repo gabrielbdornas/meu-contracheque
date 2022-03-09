@@ -118,16 +118,18 @@ def get_page_source(driver, period, doc_type, pdf):
   write_page_source.write(page_source)
   write_page_source.close()
   if pdf == True:
-    get_pdf(driver, period)
+    get_pdf(driver, period, doc_type)
 
-def get_pdf(driver, period):
-  click.echo(f'Baixando pdf {period}')
+def get_pdf(driver, period, doc_type):
+  if not os.path.isdir('contracheques'):
+    os.system('mkdir contracheques')
+  click.echo(f'Baixando pdf {period} {doc_type}')
   driver.find_element(By.XPATH, "//a[@class='botao' and text()='SALVAR EM PDF']").click()
   period_list = period.split('/')
   mes = period_list[0]
   ano = period_list[1]
   file_path = 'contraCheque.pdf'
-  new_file_path = f'contracheques/{ano}{mes}01 - Contracheque.pdf'
+  new_file_path = f'contracheques/{ano}{mes}01 - Contracheque_{doc_type}.pdf'
   is_file_path = False
   while is_file_path == False:
     is_file_path = os.path.isfile(file_path)

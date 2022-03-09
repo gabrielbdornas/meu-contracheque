@@ -103,6 +103,8 @@ $ meu-contracheque mg -m <masp-usuario> -s <senha-usuario> --no-headless
 $ meu-contracheque mg -m <masp-usuario> -s <senha-usuario> --no-pdf
 ```
 
+obs.: Arquivo pdf gerado será salvo na pasta contracheques. A mesma será criada caso não exista.
+
 ## Instalação
 
 O `meu-contracheque` está disponível no Python Package Index - [PyPI](https://pypi.org/project/meu-contracheque/) e pode ser instalado utilizando-se o comando abaixo:
