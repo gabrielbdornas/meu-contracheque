@@ -2,6 +2,11 @@
 
 Documentação das principais alterações sofridas por este repositório. Baseado na filosofia [Mantenha um Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
+### [0.2.3] - 2022-03-09
+
+- Cria flag para pdf para determinar download do contracheque (--pdf/--no-pdf)
+- Melhora Readme.md
+
 ### [0.2.2] - 2022-03-09
 
 - Flags --masp e --senha passados após subcomando mg
