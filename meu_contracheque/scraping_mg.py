@@ -127,7 +127,7 @@ def get_pdf(driver, period):
   mes = period_list[0]
   ano = period_list[1]
   file_path = 'contraCheque.pdf'
-  new_file_path = f'contracheques/{ano}01{mes} - Contracheque.pdf'
+  new_file_path = f'contracheques/{ano}{mes}01 - Contracheque.pdf'
   is_file_path = False
   while is_file_path == False:
     is_file_path = os.path.isfile(file_path)
