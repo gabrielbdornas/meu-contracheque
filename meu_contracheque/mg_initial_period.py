@@ -9,7 +9,7 @@ from meu_contracheque.scraping_mg import (scraping_process_begin,
                                          clean_process)
 
 
-def scraping_mg_initial_period(masp, senha, stop_period, headless):
+def scraping_mg_initial_period(masp, senha, stop_period, headless, pdf):
   """
   Função responsável pela busca de informações dos contracheques dos servidores do Estado de Minas Gerais até o período desejado.
   Parâmetros:
@@ -59,4 +59,4 @@ def scraping_mg_initial_period_cli(ctx, stop_period):
   -------
   Arquivo "contracheques.csv" atualizado com as informações de todos os contracheques disponíveis no Portal do Servidor.
   """
-  scraping_mg_initial_period(ctx.obj['masp'], ctx.obj['senha'], ctx.obj['headless'], stop_period)
+  scraping_mg_initial_period(ctx.obj['masp'], ctx.obj['senha'], ctx.obj['headless'], ctx.obj['pdf'], stop_period)

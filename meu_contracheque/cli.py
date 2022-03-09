@@ -21,8 +21,13 @@ def cli():
               Determina se Chrome será mostrada para usuário ou não durante execução.
               Por padrão --headless = True.
               A utilização da flag --no-headless mostrará o navegador durante execução.''')
+@click.option('--pdf/--no-pdf', default=True,
+              help='''
+              Determina se a cópia pdf do documento será baixada.
+              Por padrão --pdf = True.
+              A utilização da flag --no-pdf Não baixará o arquivo.''')
 @click.pass_context
-def mg(ctx, masp, senha, headless):
+def mg(ctx, masp, senha, headless, pdf):
   """
     Funções responsáveis pela extração de informações de contracheques dos servidores do Estado de Minas Gerais.
   """
@@ -30,6 +35,7 @@ def mg(ctx, masp, senha, headless):
   ctx.obj['masp'] = masp
   ctx.obj['senha'] = senha
   ctx.obj['headless'] = headless
+  ctx.obj['pdf'] = pdf
 
 mg.add_command(scraping_mg_last_period_cli)
 mg.add_command(scraping_mg_all_periods_cli)

@@ -89,10 +89,18 @@ $ source venv/Scripts/activate
 
 ### Visualizando Navegador Chrome durante a execução
 
-- Por padrão execução não mostra navegador Chrome "trabalhando". Flag `--headless` foi criada e definida como padrão `True` para tal. Possível utilizar flag `--no-headless` durante a execução para que o navegador seja acionado na tela.
+- Por padrão execução não mostra navegador Chrome "trabalhando". Flag `--headless` foi criada e definida como padrão `True` para tal. Possível utilizar flag `--no-headless` durante a execução para que o navegador seja acionado na tela, conforme demostrado abaixo:
 
 ```Terminal
 $ meu-contracheque mg -m <masp-usuario> -s <senha-usuario> --no-headless
+```
+
+### Baixando arquivo pdf
+
+- Por padrão execução fará o download do arquivo pdf. Flag `--pdf` foi criada e definida como padrão `True` para tal. Possível utilizar flag `--no-pdf` durante a execução sem o download, conforme demostrado abaixo:
+
+```Terminal
+$ meu-contracheque mg -m <masp-usuario> -s <senha-usuario> --no-pdf
 ```
 
 ## Instalação
@@ -108,8 +116,6 @@ $ pip install meu-contracheque
 
 O resultado da execução dos comandos abaixo será a criação do arquivo "contracheques.csv". As informações retornadas estão organizadas em formato tabular.
 Toda execução subscreve o arquivo "contracheques.csv" anteriormente gerado.
-
-Obs.: Nenhum dos comandos, até o presente momento, retorna o pdf do contracheque na íntegra.
 
 - Buscar informações do contracheque mais recente:
 

@@ -2,6 +2,7 @@
 # https://github.com/gabrielbdornas/projetos-antigos-testes/blob/main/vpn-fhemig/app/controllers/contracheque_importations_controller.rb
 from meu_contracheque.time_reader import find_last_month, find_today, find_last_period
 import os
+import shutil
 import sys
 import click
 from selenium import webdriver
@@ -60,7 +61,7 @@ def scraping_login_process(driver, period, masp, senha):
     click.echo('Não foi possível realizar login para busca do contracheque')
     sys.exit(1)
 
-def scraping_full_process(driver, period, last_period, stop_period=None):
+def scraping_full_process(driver, period, last_period, pdf, stop_period=None):
   found_period = True
   while found_period:
     mes = driver.find_element(By.ID, 'mesAno')
@@ -86,14 +87,14 @@ def scraping_full_process(driver, period, last_period, stop_period=None):
       try:
         voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
         click.echo(f'Baixando informações contracheque {period}')
-        get_page_source(driver, period, 'normal')
+        get_page_source(driver, period, 'normal', pdf)
         period = get_period(find_last_period(period))
         voltar.click()
         found_period = (True, False)[last_period] # para execução se desejado for último período
       except NoSuchElementException:
         driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
         click.echo(f'Baixando informações contracheque {period}')
-        get_page_source(driver, period, 'normal')
+        get_page_source(driver, period, 'normal', pdf)
         driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']").click()
         mes = driver.find_element(By.ID, 'mesAno')
         mes.send_keys(period)
@@ -101,14 +102,14 @@ def scraping_full_process(driver, period, last_period, stop_period=None):
         driver.find_element(By.XPATH, "//input[@id='folha1']").click()
         driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
         click.echo(f'Baixando informações contracheque gratificação {period}')
-        get_page_source(driver, period, 'gratificacao')
+        get_page_source(driver, period, 'gratificacao', pdf)
         period = get_period(find_last_period(period))
         voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
         voltar.click()
         found_period = (True, False)[last_period] # para execução se desejado for último período
   driver.quit()
 
-def get_page_source(driver, period, doc_type):
+def get_page_source(driver, period, doc_type, pdf):
   if not os.path.isdir('.temp'):
     os.system('mkdir .temp')
   page_source = driver.page_source
@@ -116,9 +117,23 @@ def get_page_source(driver, period, doc_type):
   write_page_source = open(file_path, 'w', encoding='utf-8')
   write_page_source.write(page_source)
   write_page_source.close()
+  if pdf == True:
+    get_pdf(driver, period)
 
-def get_pdf():
+def get_pdf(driver, period):
+  click.echo(f'Baixando pdf {period}')
   driver.find_element(By.XPATH, "//a[@class='botao' and text()='SALVAR EM PDF']").click()
+  period_list = period.split('/')
+  mes = period_list[0]
+  ano = period_list[1]
+  file_path = 'contraCheque.pdf'
+  new_file_path = f'contracheques/{ano}01{mes} - Contracheque.pdf'
+  is_file_path = False
+  while is_file_path == False:
+    is_file_path = os.path.isfile(file_path)
+  if os.path.isfile(new_file_path):
+    os.remove(new_file_path)
+  shutil.move(file_path, new_file_path)
 
 def page_source_file_path(period, doc_type):
   period = period.split('/')
@@ -136,7 +151,7 @@ def csv_register():
     month = split_file[1]
     doc_type = split_file[2]
     period = f'{month}/{year}'
-    click.echo(f'Registrando {position} de {files_len} contraqueches - {period}')
+    click.echo(f'Registrando csv {position} de {files_len} contraqueche(s) - {period}')
     # csv header
     fieldnames = ['periodo', 'mes', 'ano', 'masp', 'tipo_contracheque', 'cpf','nome', 'cargo', 'orgao_exercicio', 'unidade_exercicio', 'verba', 'valor', 'previdencia']
     rows = find_contracheque_values(period, doc_type)
