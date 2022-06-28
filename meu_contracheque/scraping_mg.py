@@ -49,12 +49,13 @@ def driver_initiate(headless):
 
 def scraping_login_process(driver, period, masp, senha):
   try:
-    masp_field = driver.find_element(By.NAME, 'j_username')
-    senha_field = driver.find_element(By.NAME, 'j_password')
-    masp_field.send_keys(masp)
-    senha_field.send_keys(senha)
+    cpf_field = driver.find_element(By.NAME, 'j_username')
+    pwd_field = driver.find_element(By.NAME, 'j_password')
+    cpf_field.send_keys(masp)
+    pwd_field.send_keys(senha)
     # Clica no botão para entrar e selecionar o mês desejado
-    driver.find_element(By.XPATH, "//input[@type='submit' and @value='ENTRAR']").click()
+    button = driver.find_elements(By.XPATH, "//button")[1]
+    button.click()
     # Imprime resultado em pdf
     # time.sleep(5) # Pode ser necessário aumentar este tempo durante processo de extração
     # driver.find_element(By.XPATH, "//a[@class='botao' and text()='SALVAR EM PDF']").click()
