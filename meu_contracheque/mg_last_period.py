@@ -29,7 +29,7 @@ def scraping_mg_last_period(masp, senha, headless, pdf):
     driver = start[0]
     period = start[1]
     scraping_login_process(driver, period, masp, senha)
-    scraping_full_process(driver, period, pdf, True)
+    scraping_full_process(driver, period)
     csv_register()
     clean_process()
   except:
