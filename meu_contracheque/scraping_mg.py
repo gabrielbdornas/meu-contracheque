@@ -37,11 +37,11 @@ def scraping_process_begin(headless):
 def driver_initiate(headless):
   try:
     chrome_options = Options()
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.headless = headless
+    # chrome_options.add_argument('--no-sandbox')
+    # chrome_options.headless = headless
     driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.implicitly_wait(3)
-    driver.get('https://www.portaldoservidor.mg.gov.br/azpf/broker2/?controle=ContraCheque')
+    driver.get('https://www.portaldoservidor.mg.gov.br/broker2/?controle=LoginInicial')
   except:
     click.echo('Não foi possível iniciar o driver. Tente acesso mais tarde pois portal pode estar fora do ar.')
     sys.exit(1)
@@ -49,12 +49,12 @@ def driver_initiate(headless):
 
 def scraping_login_process(driver, period, masp, senha):
   try:
-    masp_field = driver.find_element(By.ID, 'inputMasp')
-    senha_field = driver.find_element(By.ID, 'inputSenha')
+    masp_field = driver.find_element(By.NAME, 'j_username')
+    senha_field = driver.find_element(By.NAME, 'j_password')
     masp_field.send_keys(masp)
     senha_field.send_keys(senha)
     # Clica no botão para entrar e selecionar o mês desejado
-    driver.find_element(By.XPATH, "//input[@type='submit' and @value='Entrar']").click()
+    driver.find_element(By.XPATH, "//input[@type='submit' and @value='ENTRAR']").click()
     # Imprime resultado em pdf
     # time.sleep(5) # Pode ser necessário aumentar este tempo durante processo de extração
     # driver.find_element(By.XPATH, "//a[@class='botao' and text()='SALVAR EM PDF']").click()
