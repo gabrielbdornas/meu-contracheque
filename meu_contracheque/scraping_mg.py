@@ -37,6 +37,7 @@ def scraping_process_begin(headless):
 def driver_initiate(headless):
   try:
     chrome_options = Options()
+    chrome_options.add_argument('--no-sandbox')
     chrome_options.headless = headless
     driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.implicitly_wait(3)
