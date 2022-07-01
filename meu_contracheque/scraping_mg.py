@@ -65,13 +65,20 @@ def scraping_login_process(driver, period, masp, senha):
 
 def scraping_full_process(driver, period):
   driver.implicitly_wait(3)
-  ola = driver.find_element(By.XPATH, "/html/body/js-placeholder/div[1]/nav[3]/div[1]/ul[2]/li/div/button")                                              
-  ola.click()
   contracheque = driver.find_element(By.XPATH, "/html/body/js-placeholder/div[1]/main/section[2]/div[1]/div[1]/a") 
   driver.execute_script("arguments[0].setAttribute('target','_self')", contracheque)
   contracheque.click()
 
+  months = driver.find_elements_by_class_name('z-listcell-content')
+  searched_period = []
+  for i in months:
+    if i.text == '06/2022':
+      searched_period.append(i)
   import ipdb; ipdb.set_trace(context=10)
+  searched_period[0].find_element(By.XPATH, "../../td[3]/div/button[1]").click()
+
+  
+
   # contracheque = driver.find_element(By.XPATH, "/html/body/js-placeholder/div[1]/nav[3]/div[1]/ul[2]/li/div/ul/li[3]/a")
 
   print('test')
