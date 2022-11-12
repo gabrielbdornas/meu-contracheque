@@ -14,6 +14,7 @@ import csv
 from bs4 import BeautifulSoup
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
+import unidecode
 load_dotenv(dotenv_path=Path('.', '.env'))
 
 def clean_full_process():
@@ -64,71 +65,32 @@ def scraping_login_process(driver, period, masp, senha):
     sys.exit(1)
 
 def scraping_full_process(driver, period):
+  doc_type = ''
   driver.implicitly_wait(3)
   contracheque = driver.find_element(By.XPATH, "/html/body/js-placeholder/div[1]/main/section[2]/div[1]/div[1]/a") 
   driver.execute_script("arguments[0].setAttribute('target','_self')", contracheque)
   contracheque.click()
+  #enter iframe before select month input field
+  driver.get('https://www.portaldoservidor.mg.gov.br/fcrh-portal/area-restrita/?menu=contracheques')
+  month_input = driver.find_element_by_class_name('z-textbox')
+  month_input.send_keys(period)
+  contracheque_button = driver.find_element(By.XPATH, "//button")
+  contracheque_button.click()
+  lines = driver.find_elements(By.XPATH, "//tr[@class='z-listitem']")
+  for line in lines:
+    doc_type = line.find_elements(By.XPATH, "//div[@class='z-listcell-content']")[1].text
+    doc_type = format_doc_type(doc_type)
+    # baixar_button = line.find_element(By.XPATH, "//button[text()='Baixar']")  
+    # baixar_button.click()
+    exibir_button = driver.find_element(By.XPATH, "//button[text()='Exibir']")
+    exibir_button.click()
+    get_page_source(driver, period, doc_type)
 
-  months = driver.find_elements_by_class_name('z-listcell-content')
-  searched_period = []
-  for i in months:
-    if i.text == '06/2022':
-      searched_period.append(i)
-  import ipdb; ipdb.set_trace(context=10)
-  searched_period[0].find_element(By.XPATH, "../../td[3]/div/button[1]").click()
+def format_doc_type(doc_type):
+  unaccented_string = unidecode.unidecode(doc_type)
+  return unaccented_string.lower().replace(' ', '_')  
 
-  
-
-  # contracheque = driver.find_element(By.XPATH, "/html/body/js-placeholder/div[1]/nav[3]/div[1]/ul[2]/li/div/ul/li[3]/a")
-
-  print('test')
-  # while found_period:
-  #   mes = driver.find_element(By.ID, 'mesAno')
-  #   # Seleciona o mês desejada e clica no botão consultar
-  #   period = normalize_period(period)
-  #   mes.send_keys(period)
-  #   driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
-  #   try:
-  #     driver.find_element(By.XPATH, f"//b[text()='Nao possui contracheque no mes/ano {period}']")
-  #     if stop_period == None:
-  #       found_period = False
-  #       click.echo(f'Fim da busca. Nao possui contracheque no mes/ano {period}.')
-  #     elif stop_period == period:
-  #       found_period = False
-  #       click.echo(f'Fim da busca no período {period} desejado.')
-  #     else:
-  #       period = get_period(find_last_period(period))
-  #       click.echo(f'Nao possui contracheque no mes/ano {period}.')
-  #       voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
-  #       voltar.click()
-  #       found_period = (True, False)[last_period] # para execução se desejado for último período
-  #   except NoSuchElementException:
-  #     try:
-  #       voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
-  #       click.echo(f'Baixando informações contracheque {period}')
-  #       get_page_source(driver, period, 'normal', pdf)
-  #       period = get_period(find_last_period(period))
-  #       voltar.click()
-  #       found_period = (True, False)[last_period] # para execução se desejado for último período
-  #     except NoSuchElementException:
-  #       driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
-  #       click.echo(f'Baixando informações contracheque {period}')
-  #       get_page_source(driver, period, 'normal', pdf)
-  #       driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']").click()
-  #       mes = driver.find_element(By.ID, 'mesAno')
-  #       mes.send_keys(period)
-  #       driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
-  #       driver.find_element(By.XPATH, "//input[@id='folha1']").click()
-  #       driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
-  #       click.echo(f'Baixando informações contracheque gratificação {period}')
-  #       get_page_source(driver, period, 'gratificacao', pdf)
-  #       period = get_period(find_last_period(period))
-  #       voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
-  #       voltar.click()
-  #       found_period = (True, False)[last_period] # para execução se desejado for último período
-  # driver.quit()
-
-def get_page_source(driver, period, doc_type, pdf):
+def get_page_source(driver, period, doc_type):
   if not os.path.isdir('.temp'):
     os.system('mkdir .temp')
   page_source = driver.page_source
@@ -136,8 +98,6 @@ def get_page_source(driver, period, doc_type, pdf):
   write_page_source = open(file_path, 'w', encoding='utf-8')
   write_page_source.write(page_source)
   write_page_source.close()
-  if pdf == True:
-    get_pdf(driver, period, doc_type)
 
 def get_pdf(driver, period, doc_type):
   if not os.path.isdir('contracheques'):
@@ -245,3 +205,52 @@ def normalize_period(period):
   year = split_period[1]
   period = f'{month}/{year}'
   return period
+
+
+
+  # contracheque = driver.find_element(By.XPATH, "/html/body/js-placeholder/div[1]/nav[3]/div[1]/ul[2]/li/div/ul/li[3]/a")
+  # while found_period:
+  #   mes = driver.find_element(By.ID, 'mesAno')
+  #   # Seleciona o mês desejada e clica no botão consultar
+  #   period = normalize_period(period)
+  #   mes.send_keys(period)
+  #   driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
+  #   try:
+  #     driver.find_element(By.XPATH, f"//b[text()='Nao possui contracheque no mes/ano {period}']")
+  #     if stop_period == None:
+  #       found_period = False
+  #       click.echo(f'Fim da busca. Nao possui contracheque no mes/ano {period}.')
+  #     elif stop_period == period:
+  #       found_period = False
+  #       click.echo(f'Fim da busca no período {period} desejado.')
+  #     else:
+  #       period = get_period(find_last_period(period))
+  #       click.echo(f'Nao possui contracheque no mes/ano {period}.')
+  #       voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
+  #       voltar.click()
+  #       found_period = (True, False)[last_period] # para execução se desejado for último período
+  #   except NoSuchElementException:
+  #     try:
+  #       voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
+  #       click.echo(f'Baixando informações contracheque {period}')
+  #       get_page_source(driver, period, 'normal', pdf)
+  #       period = get_period(find_last_period(period))
+  #       voltar.click()
+  #       found_period = (True, False)[last_period] # para execução se desejado for último período
+  #     except NoSuchElementException:
+  #       driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
+  #       click.echo(f'Baixando informações contracheque {period}')
+  #       get_page_source(driver, period, 'normal', pdf)
+  #       driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']").click()
+  #       mes = driver.find_element(By.ID, 'mesAno')
+  #       mes.send_keys(period)
+  #       driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
+  #       driver.find_element(By.XPATH, "//input[@id='folha1']").click()
+  #       driver.find_element(By.XPATH, "//input[@type='submit' and @value='Consultar']").click()
+  #       click.echo(f'Baixando informações contracheque gratificação {period}')
+  #       get_page_source(driver, period, 'gratificacao', pdf)
+  #       period = get_period(find_last_period(period))
+  #       voltar = driver.find_element(By.XPATH, "//a[@class='botao' and text()='VOLTAR']")
+  #       voltar.click()
+  #       found_period = (True, False)[last_period] # para execução se desejado for último período
+  # driver.quit()
