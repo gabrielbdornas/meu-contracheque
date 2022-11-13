@@ -15,6 +15,7 @@ from bs4 import BeautifulSoup
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 import unidecode
+import time
 load_dotenv(dotenv_path=Path('.', '.env'))
 
 def clean_full_process():
@@ -74,14 +75,15 @@ def scraping_full_process(driver, period):
   driver.get('https://www.portaldoservidor.mg.gov.br/fcrh-portal/area-restrita/?menu=contracheques')
   month_input = driver.find_element_by_class_name('z-textbox')
   month_input.send_keys(period)
-  contracheque_button = driver.find_element(By.XPATH, "//button")
+  contracheque_button = driver.find_element(By.XPATH, "//div/div/button")
   contracheque_button.click()
+  time.sleep(10)
   lines = driver.find_elements(By.XPATH, "//tr[@class='z-listitem']")
+  # import ipdb; ipdb.set_trace(context=10)
   for line in lines:
     doc_type = line.find_elements(By.XPATH, "//div[@class='z-listcell-content']")[1].text
     doc_type = format_doc_type(doc_type)
-    # baixar_button = line.find_element(By.XPATH, "//button[text()='Baixar']")  
-    # baixar_button.click()
+    get_pdf(driver, period, doc_type)
     exibir_button = driver.find_element(By.XPATH, "//button[text()='Exibir']")
     exibir_button.click()
     get_page_source(driver, period, doc_type)
@@ -98,22 +100,25 @@ def get_page_source(driver, period, doc_type):
   write_page_source = open(file_path, 'w', encoding='utf-8')
   write_page_source.write(page_source)
   write_page_source.close()
+  driver.find_element(By.XPATH, "//button[text()='Voltar']").click()
 
 def get_pdf(driver, period, doc_type):
   if not os.path.isdir('contracheques'):
     os.system('mkdir contracheques')
-  click.echo(f'Baixando pdf {period} {doc_type}')
-  driver.find_element(By.XPATH, "//a[@class='botao' and text()='SALVAR EM PDF']").click()
   period_list = period.split('/')
   mes = period_list[0]
   ano = period_list[1]
-  file_path = 'contraCheque.pdf'
-  new_file_path = f'contracheques/{ano}{mes}01 - Contracheque_{doc_type}.pdf'
-  is_file_path = False
-  while is_file_path == False:
-    is_file_path = os.path.isfile(file_path)
+  downloads_path = str(Path.home() / "Downloads")
+  file_path = f'{downloads_path}/Contracheque-{ano}{mes}.pdf'
+  new_file_path = f'contracheques/{ano}{mes}_contracheque_{doc_type}.pdf'
+  if os.path.isfile(file_path):
+    os.remove(file_path)
+  click.echo(f'Baixando pdf do contracheque {doc_type} {period}')
+  driver.find_element(By.XPATH, "//button[text()='Baixar']").click()
   if os.path.isfile(new_file_path):
     os.remove(new_file_path)
+  time.sleep(10)
+  download_completed = False
   shutil.move(file_path, new_file_path)
 
 def page_source_file_path(period, doc_type):
