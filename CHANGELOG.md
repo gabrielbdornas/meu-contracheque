@@ -2,6 +2,11 @@
 
 Documentação das principais alterações sofridas por este repositório. Baseado na filosofia [Mantenha um Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
+### [0.3.0] - 2022-11-13
+
+- Refaz o processo para novo portal do servidor mg
+- Somente função last period funcionando no momento
+
 ### [0.2.5] - 2022-03-09
 
 - Melhora geração arquivo pdf
