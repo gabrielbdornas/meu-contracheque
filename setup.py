@@ -12,7 +12,8 @@ INSTALL_REQUIRES = [
     "selenium==4.0.0",
     "python-dotenv==0.19.2",
     "bs4==0.0.1",
-    "html5lib==1.1"
+    "html5lib==1.1",
+    "Unidecode==1.3.6"
 ]
 
 # Variáveis author, copyright e licence utilizadas para criação/atualização do arquivo LICENCE.txt (rotina Make durante processo de atualização do pacote "make update-package")
