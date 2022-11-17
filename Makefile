@@ -16,5 +16,5 @@ build: setup.py ## Constroi as pastas e arquivos necessários para publicação 
 	@python setup.py sdist bdist_wheel
 
 publish-build: ## Publica pacote em Pypi
-	@echo "Publicando pacote. Caso não tenha atualizado a versão no arquivo setup.py encerre e rode novamente"
+	@echo "Publicando pacote. Caso não tenha atualizado a versão nos arquivos setup.py e CHANGELOG.md encerre e rode novamente"
 	@twine upload dist/*
