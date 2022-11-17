@@ -2,6 +2,10 @@
 
 Documentação das principais alterações sofridas por este repositório. Baseado na filosofia [Mantenha um Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
+### [0.3.1] - 2022-11-16
+
+- Implementa flag --no-headless na busca do último contracheque
+
 ### [0.3.0] - 2022-11-13
 
 - Refaz o processo para novo portal do servidor mg
