@@ -29,9 +29,10 @@ def scraping_mg_last_period(masp, senha, headless, pdf):
     driver = start[0]
     period = start[1]
     scraping_login_process(driver, period, masp, senha)
-    scraping_full_process(driver, period)
+    scraping_full_process(driver, period, headless)
     # csv_register()
     # clean_process()
+    click.echo('Processo de extração do último contracheque finalizado com sucesso.')
   except:
     click.echo('Não foi possível finalizar o processo de busca do contracheque mais recente.')
     sys.exit(1)

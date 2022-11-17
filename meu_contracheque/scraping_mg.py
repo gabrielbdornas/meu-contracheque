@@ -39,8 +39,8 @@ def scraping_process_begin(headless):
 def driver_initiate(headless):
   try:
     chrome_options = Options()
-    # chrome_options.add_argument('--no-sandbox')
-    # chrome_options.headless = headless
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.headless = headless
     driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.implicitly_wait(3)
     driver.get('https://www.portaldoservidor.mg.gov.br/broker2/?controle=LoginInicial')
@@ -58,14 +58,11 @@ def scraping_login_process(driver, period, masp, senha):
     # Clica no botão para entrar e selecionar o mês desejado
     button = driver.find_elements(By.XPATH, "//button")[1]
     button.click()
-    # Imprime resultado em pdf
-    # time.sleep(5) # Pode ser necessário aumentar este tempo durante processo de extração
-    # driver.find_element(By.XPATH, "//a[@class='botao' and text()='SALVAR EM PDF']").click()
   except:
     click.echo('Não foi possível realizar login para busca do contracheque')
     sys.exit(1)
 
-def scraping_full_process(driver, period):
+def scraping_full_process(driver, period, headless):
   doc_type = ''
   driver.implicitly_wait(3)
   contracheque = driver.find_element(By.XPATH, "/html/body/js-placeholder/div[1]/main/section[2]/div[1]/div[1]/a") 
@@ -83,7 +80,7 @@ def scraping_full_process(driver, period):
   for line in lines:
     doc_type = line.find_elements(By.XPATH, "//div[@class='z-listcell-content']")[1].text
     doc_type = format_doc_type(doc_type)
-    get_pdf(driver, period, doc_type)
+    get_pdf(driver, period, doc_type, headless)
     exibir_button = driver.find_element(By.XPATH, "//button[text()='Exibir']")
     exibir_button.click()
     get_page_source(driver, period, doc_type)
@@ -102,15 +99,19 @@ def get_page_source(driver, period, doc_type):
   write_page_source.close()
   driver.find_element(By.XPATH, "//button[text()='Voltar']").click()
 
-def get_pdf(driver, period, doc_type):
+def get_pdf(driver, period, doc_type, headless):
   if not os.path.isdir('contracheques'):
     os.system('mkdir contracheques')
   period_list = period.split('/')
   mes = period_list[0]
   ano = period_list[1]
   downloads_path = str(Path.home() / "Downloads")
-  file_path = f'{downloads_path}/Contracheque-{ano}{mes}.pdf'
+  file_path = ''
   new_file_path = f'contracheques/{ano}{mes}_contracheque_{doc_type}.pdf'
+  if headless:
+    file_path = f'Contracheque-{ano}{mes}.pdf'
+  else:
+    file_path = f'{downloads_path}/Contracheque-{ano}{mes}.pdf' 
   if os.path.isfile(file_path):
     os.remove(file_path)
   click.echo(f'Baixando pdf do contracheque {doc_type} {period}')
